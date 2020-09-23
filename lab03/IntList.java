@@ -26,6 +26,10 @@ public class IntList {
     }
 
     /** Returns the size of the list. */
+    /* Exercise: You might wonder why we don't do something like if (this == null) return 0;. Why wouldn't this work?
+
+     Answer: Think about what happens when you call size. You are calling it on an object, for example L.size().
+     If L were null, then you would get a NullPointer error!*/
     public int size() {
         if (rest == null) {
             return 1;
@@ -35,20 +39,44 @@ public class IntList {
 
     /** Returns [position]th value in this list. */
     public int get(int position) {
-        // TODO: YOUR CODE HERE
-        return 0;
+        // If position less than 0 than return first.
+        // If position large than length of the IntList, then return -1.
+        int ans = this.first;
+        IntList p = this.rest;
+        for(int i = 0; i < position; i++){
+            if(p == null){
+                return -1;
+            }
+            ans = p.first;
+            p = p.rest;
+        }
+        return ans;
     }
 
     /** Returns the string representation of the list. */
     public String toString() {
-        // TODO: YOUR CODE HERE
-        return null;
+        String ans = "" + this.first;
+        IntList p = this.rest;
+        while(p != null){
+            ans += " " + p.first;
+            p = p.rest;
+        }
+        return ans;
     }
 
     /** Returns whether this and the given list or object are equal. */
     public boolean equals(Object o) {
         IntList other = (IntList) o;
         // TODO: YOUR CODE HERE
-        return false;
+        IntList p = this;
+        while(p.rest != null && other.rest != null){
+            if (p.first == other.first){
+                p.rest = p.rest.rest;
+                other.rest = other.rest.rest;
+            }
+            else
+                return false;
+        }
+        return (p.rest == null || other.rest != null) && (p.rest != null || other.rest == null);
     }
 }

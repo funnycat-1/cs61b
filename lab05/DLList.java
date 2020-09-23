@@ -2,13 +2,13 @@
   * A DLList is a list of integers. Like SLList, it also hides the terrible
   * truth of the nakedness within, but with a few additional optimizations.
   */
-public class DLList<BleepBlorp> {
+public class DLList<myType> {
     private class Node {
         public Node prev;
-        public BleepBlorp item;
+        public myType item;
         public Node next;
 
-        public Node(BleepBlorp i, Node p, Node n) {
+        public Node(myType i, Node p, Node n) {
             prev = p;
             item = i;
             next = n;
@@ -27,9 +27,9 @@ public class DLList<BleepBlorp> {
     }
 
     /** Returns a DLList consisting of the given values. */
-    public static <BleepBlorp> DLList of(BleepBlorp... values) {
-        DLList<BleepBlorp> list = new DLList<>();
-        for (BleepBlorp value : values) {
+    public static <myType> DLList of(myType... values) {
+        DLList<myType> list = new DLList<>();
+        for (myType value : values) {
             list.addLast(value);
         }
         return list;
@@ -41,7 +41,7 @@ public class DLList<BleepBlorp> {
     }
 
     /** Adds item to the front of the list. */
-    public void addFirst(BleepBlorp item) {
+    public void addFirst(myType item) {
         Node n = new Node(item, sentinel, sentinel.next);
         n.next.prev = n;
         n.prev.next = n;
@@ -49,21 +49,43 @@ public class DLList<BleepBlorp> {
     }
 
     /** Adds item to the back of the list. */
-    public void addLast(BleepBlorp item) {
+    public void addLast(myType item) {
         Node n = new Node(item, sentinel.prev, sentinel);
         n.next.prev = n;
         n.prev.next = n;
         size += 1;
     }
 
+    // 对于指针的理解要清晰!!!
     /** Adds item to the list at the specified index. */
-    public void add(int index, BleepBlorp item) {
-        // TODO
+    public void add(int index, myType item) {
+        Node p = sentinel.next;
+        if(index >= size){
+            addLast(item);
+            return;
+        }
+        for(int i = 0; i <= index; i++){
+            if(i == index){
+                p.prev.next = new Node(item, p.prev, p);
+                p.prev = p.prev.next;
+                break;
+            }
+            p = p.next;
+        }
+        size++;
     }
 
     /** Remove the first instance of item from this list. */
-    public void remove(BleepBlorp item) {
-        // TODO
+    public void remove(myType item) {
+        Node p = sentinel.next;
+        while(p.item != item){
+            if(p == sentinel)
+                return;
+            p = p.next;
+        }
+        p.next.prev = p.prev;
+        p.prev.next = p.next;
+        size--;
     }
 
     @Override

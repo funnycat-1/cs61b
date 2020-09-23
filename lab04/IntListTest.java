@@ -1,5 +1,6 @@
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class IntListTest {
 
@@ -61,12 +62,12 @@ public class IntListTest {
     /**
      * Do not use the new keyword in your tests. You can create
      * lists using the handy IntList.of method.
-     *
+     * <p>
      * Make sure to include test cases involving lists of various sizes
      * on both sides of the operation. That includes the empty of, which
      * can be instantiated, for example, with
      * IntList empty = IntList.of().
-     *
+     * <p>
      * Keep in mind that dcatenate(A, B) is NOT required to leave A untouched.
      * Anything can happen to A.
      */

@@ -17,14 +17,15 @@ public class SLList {
     private IntNode sentinel;
     private int size;
 
-    /** Creates an empty SLList. */
+    /** Default constructor creates an empty SLList. */
     public SLList() {
-        sentinel = new IntNode(63, null);
+        sentinel = new IntNode(0, null);
         size = 0;
     }
 
+    /** The constructor with parameter. */
     public SLList(int x) {
-        sentinel = new IntNode(63, null);
+        sentinel = new IntNode(0, null);
         sentinel.next = new IntNode(x, null);
         size = 1;
     }
@@ -32,7 +33,9 @@ public class SLList {
     /** Returns an SLList consisting of the given values. */
     public static SLList of(int... values) {
         SLList list = new SLList();
-        for (int i = values.length - 1; i >= 0; i -= 1) {
+        // adding node to list from the last of the values so that the list is
+        // the same sequence as values.
+        for (int i = values.length - 1; i >= 0; i--) {
             list.addFirst(values[i]);
         }
         return list;
@@ -59,7 +62,7 @@ public class SLList {
         IntNode p = sentinel.next;
         while (index > 0) {
             p = p.next;
-            index -= 1;
+            index--;
         }
         return p.item;
     }
@@ -76,11 +79,38 @@ public class SLList {
 
     /** Adds x to the list at the specified index. */
     public void add(int index, int x) {
-        // TODO
+        if (index < 0 || index > size){
+            //System.out.println("Index out of border.");
+            return;
+        }
+        IntNode p = sentinel.next;
+        for(int i = 0; i <= index; i++){
+            if(p.next != null)
+                p = p.next;
+            else if(i == size) {
+                p.next = new IntNode(x, null);
+                size++;
+                return ;
+            }
+            else {
+                //System.out.println("Index out of border.");
+                return;
+            }
+        }
+        p.next = new IntNode(x, p.next);
+        size++;
     }
 
     /** Returns the reverse of this list. This method is destructive. */
     public void reverse() {
-        // TODO
+        IntNode p = sentinel;
+        SLList q = new SLList(p.item);
+        if (p != null && p.next != null){
+            while(p.next != null){
+                q.addFirst(p.next.item);
+                p = p.next;
+            }
+        }
+        sentinel = q.sentinel;
     }
 }
